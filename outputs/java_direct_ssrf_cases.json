@@ -1,0 +1,1053 @@
+[
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2020/03/GHSA-694p-xrhg-x3wm/GHSA-694p-xrhg-x3wm.json",
+    "case_id": "GHSA-694p-xrhg-x3wm",
+    "project": "io.micronaut",
+    "repository": "https://github.com/micronaut-projects/micronaut-core",
+    "package": "io.micronaut:micronaut-http-client",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://github.com/micronaut-projects/micronaut-core/security/advisories/GHSA-694p-xrhg-x3wm",
+      "https://nvd.nist.gov/vuln/detail/CVE-2020-7611"
+    ],
+    "fix_commits": [
+      {
+        "commit": "6deb60b75517f80c57b42d935f07955c773b766d",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/micronaut-projects/micronaut-core/commit/6deb60b75517f80c57b42d935f07955c773b766d",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      },
+      {
+        "commit": "9d1eff5c8df1d6cda1fe00ef046729b2a6abe7f1",
+        "role": "unknown",
+        "commit_url": "https://github.com/micronaut-projects/micronaut-core/commit/9d1eff5c8df1d6cda1fe00ef046729b2a6abe7f1",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "6deb60b75517f80c57b42d935f07955c773b766d",
+          "file": "http-netty/src/main/java/io/micronaut/http/netty/NettyHttpHeaders.java",
+          "method": "public class NettyHttpHeaders implements MutableHttpHeaders {",
+          "before_code": "* @param nettyHeaders      The Netty Http headers\n     * @param conversionService The conversion service\n     */\n    public NettyHttpHeaders(io.netty.handler.codec.http.HttpHeaders nettyHeaders, ConversionService conversionService) {\n        this.nettyHeaders = nettyHeaders;\n        this.conversionService = conversionService;\n    }\n\n    /**\n     * Default constructor.\n     */\n    public NettyHttpHeaders() {\n        this.nettyHeaders = new DefaultHttpHeaders(false);\n        this.conversionService = ConversionService.SHARED;\n    }\n\n    /**\n     * @return The underlying Netty headers.\n     */\n    public io.netty.handler.codec.http.HttpHeaders getNettyHeaders() {",
+          "after_code": "* @param nettyHeaders      The Netty Http headers\n     * @param conversionService The conversion service\n     */\n    public NettyHttpHeaders(io.netty.handler.codec.http.HttpHeaders nettyHeaders, ConversionService conversionService) {\n        this.nettyHeaders = nettyHeaders;\n        this.conversionService = conversionService;\n    }\n\n    /**\n     * Default constructor.\n     */\n    public NettyHttpHeaders() {\n        this.nettyHeaders = new DefaultHttpHeaders();\n        this.conversionService = ConversionService.SHARED;\n    }\n\n    /**\n     * @return The underlying Netty headers.\n     */\n    public io.netty.handler.codec.http.HttpHeaders getNettyHeaders() {",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        },
+        {
+          "commit": "9d1eff5c8df1d6cda1fe00ef046729b2a6abe7f1",
+          "file": "http-netty/src/main/java/io/micronaut/http/netty/NettyHttpHeaders.java",
+          "method": "public class NettyHttpHeaders implements MutableHttpHeaders {",
+          "before_code": "* @param nettyHeaders      The Netty Http headers\n     * @param conversionService The conversion service\n     */\n    public NettyHttpHeaders(io.netty.handler.codec.http.HttpHeaders nettyHeaders, ConversionService conversionService) {\n        this.nettyHeaders = nettyHeaders;\n        this.conversionService = conversionService;\n    }\n\n    /**\n     * Default constructor.\n     */\n    public NettyHttpHeaders() {\n        this.nettyHeaders = new DefaultHttpHeaders(false);\n        this.conversionService = ConversionService.SHARED;\n    }\n\n    /**\n     * @return The underlying Netty headers.\n     */\n    public io.netty.handler.codec.http.HttpHeaders getNettyHeaders() {",
+          "after_code": "* @param nettyHeaders      The Netty Http headers\n     * @param conversionService The conversion service\n     */\n    public NettyHttpHeaders(io.netty.handler.codec.http.HttpHeaders nettyHeaders, ConversionService conversionService) {\n        this.nettyHeaders = nettyHeaders;\n        this.conversionService = conversionService;\n    }\n\n    /**\n     * Default constructor.\n     */\n    public NettyHttpHeaders() {\n        this.nettyHeaders = new DefaultHttpHeaders();\n        this.conversionService = ConversionService.SHARED;\n    }\n\n    /**\n     * @return The underlying Netty headers.\n     */\n    public io.netty.handler.codec.http.HttpHeaders getNettyHeaders() {",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2022/02/GHSA-9jg9-6wm2-x7p5/GHSA-9jg9-6wm2-x7p5.json",
+    "case_id": "GHSA-9jg9-6wm2-x7p5",
+    "project": "org.apache.karaf.management",
+    "repository": "https://github.com/apache/karaf",
+    "package": "org.apache.karaf.management:org.apache.karaf.management.server",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2020-11980",
+      "http://karaf.apache.org/security/cve-2020-11980.txt"
+    ],
+    "fix_commits": [
+      {
+        "commit": "3e4c4bed2d08e81ca5961ab5fcadab23470db1c9",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/apache/karaf/commit/3e4c4bed2d08e81ca5961ab5fcadab23470db1c9",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "3e4c4bed2d08e81ca5961ab5fcadab23470db1c9",
+          "file": "management/server/src/main/java/org/apache/karaf/management/KarafMBeanServerGuard.java",
+          "method": "public class KarafMBeanServerGuard implements InvocationHandler {",
+          "before_code": "}\n                    } else {\n                        if (bypassObjectName.equals(pid.substring(\"jmx.acl.\".length()))) {\n                            return true;\n                        }\n                    }\n                }\n            }\n        }\n        return false;\n    }\n\n    void handleInvoke(ObjectName objectName, String operationName, Object[] params, String[] signature) throws IOException {\n        handleInvoke(null, objectName, operationName, params, signature);\n    }\n\n    void handleInvoke(BulkRequestContext context, ObjectName objectName, String operationName, Object[] params, String[] signature) throws IOException {\n        if (context == null) {\n            context = BulkRequestContext.newContext(configAdmin);\n        }",
+          "after_code": "}\n                    } else {\n                        if (bypassObjectName.equals(pid.substring(\"jmx.acl.\".length()))) {\n                            return true;\n                        }\n                    }\n                }\n            }\n        }\n        return false;\n    }\n\n    void handleInvoke(MBeanServer mbs, ObjectName objectName, String operationName, Object[] params, String[] signature) throws IOException, InstanceNotFoundException {\n        handleInvoke(mbs, null, objectName, operationName, params, signature);\n    }\n\n    void handleInvoke(MBeanServer mbs, BulkRequestContext context, ObjectName objectName, String operationName, Object[] params, String[] signature) throws IOException, InstanceNotFoundException {\n        if (mbs != null && mbs.isInstanceOf(objectName, \"javax.management.loading.MLet\")\n            && (\"addUrl\".equals(operationName) || \"getMBeansFromURL\".equals(operationName))) {\n            SecurityException se = new SecurityException(operationName + \" is not allowed to be invoked\");",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2022/02/GHSA-cmx4-p4v5-hmr5/GHSA-cmx4-p4v5-hmr5.json",
+    "case_id": "GHSA-cmx4-p4v5-hmr5",
+    "project": "org.apache.xmlgraphics",
+    "repository": "https://github.com/apache/xmlgraphics-batik",
+    "package": "org.apache.xmlgraphics:batik",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2019-17566",
+      "https://security.gentoo.org/glsa/202401-11",
+      "https://www.oracle.com//security-alerts/cpujul2021.html",
+      "https://www.oracle.com/security-alerts/cpuApr2021.html",
+      "https://www.oracle.com/security-alerts/cpujan2021.html",
+      "https://www.oracle.com/security-alerts/cpujan2022.html",
+      "https://www.oracle.com/security-alerts/cpujul2022.html",
+      "https://www.oracle.com/security-alerts/cpuoct2021.html",
+      "https://xmlgraphics.apache.org/security.html"
+    ],
+    "fix_commits": [
+      {
+        "commit": "bc6078ca949039e2076cd08b4cb169c84c1179b1",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/apache/xmlgraphics-batik/commit/bc6078ca949039e2076cd08b4cb169c84c1179b1",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "bc6078ca949039e2076cd08b4cb169c84c1179b1",
+          "file": "batik-svgrasterizer/src/main/java/org/apache/batik/apps/rasterizer/SVGConverter.java",
+          "method": "public class SVGConverter {",
+          "before_code": "protected boolean executeOnload = false;\n\n    /** Document time to seek to. */\n    protected float snapshotTime = Float.NaN;\n\n    /** Set of allowed script types. */\n    protected String allowedScriptTypes = null;\n\n    /** Controls whether scripts can only have the same origin as\n        the document which references them. */\n    protected boolean constrainScriptOrigin = true;\n\n    /** Controls whether scripts should be run securely or not */\n    protected boolean securityOff = false;\n\n    /** Sources files or URLs */\n    protected List sources = null;\n\n    /**\n     * Destination image path. Can be a file (for single source) or",
+          "after_code": "protected boolean executeOnload = false;\n\n    /** Document time to seek to. */\n    protected float snapshotTime = Float.NaN;\n\n    /** Set of allowed script types. */\n    protected String allowedScriptTypes = null;\n\n    /** Controls whether scripts can only have the same origin as\n        the document which references them. */\n    protected boolean constrainScriptOrigin = true;\n\n    protected boolean allowExternalResources = true;\n\n    /** Controls whether scripts should be run securely or not */\n    protected boolean securityOff = false;\n\n    /** Sources files or URLs */\n    protected List sources = null;",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2022/05/GHSA-9cfq-v2hm-c3xr/GHSA-9cfq-v2hm-c3xr.json",
+    "case_id": "GHSA-9cfq-v2hm-c3xr",
+    "project": "org.jenkins-ci.plugins",
+    "repository": "https://github.com/jenkinsci/github-branch-source-plugin",
+    "package": "org.jenkins-ci.plugins:github-branch-source",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2018-1000185",
+      "https://jenkins.io/security/advisory/2018-06-04/#SECURITY-806"
+    ],
+    "fix_commits": [
+      {
+        "commit": "22d3383002274bc3f4368534eba2b5c852e78b39",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/jenkinsci/github-branch-source-plugin/commit/22d3383002274bc3f4368534eba2b5c852e78b39",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "22d3383002274bc3f4368534eba2b5c852e78b39",
+          "file": "src/main/java/org/jenkinsci/plugins/github_branch_source/Endpoint.java",
+          "method": "import hudson.util.FormValidation;",
+          "before_code": "import java.io.FileNotFoundException;\nimport java.io.IOException;\nimport java.io.ObjectStreamException;\nimport java.net.MalformedURLException;\nimport java.net.URI;\nimport java.net.URISyntaxException;\nimport java.net.URL;\nimport java.util.Locale;\nimport java.util.logging.Logger;\nimport java.util.logging.Level;\n\nimport jenkins.scm.api.SCMName;\nimport org.apache.commons.lang.StringUtils;\nimport org.kohsuke.accmod.Restricted;\nimport org.kohsuke.accmod.restrictions.NoExternalUse;\nimport org.kohsuke.github.GitHub;\nimport org.kohsuke.stapler.DataBoundConstructor;\nimport org.kohsuke.stapler.QueryParameter;",
+          "after_code": "import java.io.FileNotFoundException;\nimport java.io.IOException;\nimport java.io.ObjectStreamException;\nimport java.net.MalformedURLException;\nimport java.net.URI;\nimport java.net.URISyntaxException;\nimport java.net.URL;\nimport java.util.Locale;\nimport java.util.logging.Logger;\nimport java.util.logging.Level;\n\nimport jenkins.model.Jenkins;\nimport jenkins.scm.api.SCMName;\nimport org.apache.commons.lang.StringUtils;\nimport org.kohsuke.accmod.Restricted;\nimport org.kohsuke.accmod.restrictions.NoExternalUse;\nimport org.kohsuke.github.GitHub;\nimport org.kohsuke.stapler.DataBoundConstructor;\nimport org.kohsuke.stapler.QueryParameter;",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2022/05/GHSA-hp7x-282p-hhr9/GHSA-hp7x-282p-hhr9.json",
+    "case_id": "GHSA-hp7x-282p-hhr9",
+    "project": "de.tracetronic.jenkins.plugins",
+    "repository": "https://github.com/jenkinsci/ecutest-plugin",
+    "package": "de.tracetronic.jenkins.plugins:ecutest",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2018-1999026",
+      "https://jenkins.io/security/advisory/2018-07-30/#SECURITY-994",
+      "https://web.archive.org/web/20200227115310/http://www.securityfocus.com/bid/104960"
+    ],
+    "fix_commits": [
+      {
+        "commit": "943c4d3c8df521eb94fb99429717e3920c6fc7f7",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/jenkinsci/ecutest-plugin/commit/943c4d3c8df521eb94fb99429717e3920c6fc7f7",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "943c4d3c8df521eb94fb99429717e3920c6fc7f7",
+          "file": "src/main/java/de/tracetronic/jenkins/plugins/ecutest/report/atx/ATXPublisher.java",
+          "method": "public class ATXPublisher extends AbstractReportPublisher {",
+          "before_code": "* @param serverURL\n         *            the server URL\n         * @param serverPort\n         *            the server port\n         * @param serverContextPath\n         *            the server context path\n         * @param useHttpsConnection\n         *            if secure connection is used\n         * @param ignoreSSL\n         *            specifies whether to ignore SSL issues\n         * @return the form validation\n         */\n        public FormValidation doTestConnection(@QueryParameter final String serverURL,\n                @QueryParameter final String serverPort, @QueryParameter final String serverContextPath,\n                @QueryParameter final boolean useHttpsConnection, @QueryParameter final boolean ignoreSSL) {\n            return atxValidator.testConnection(serverURL, serverPort, serverContextPath, useHttpsConnection, ignoreSSL);\n        }\n    }\n}",
+          "after_code": "* @param serverURL\n         *            the server URL\n         * @param serverPort\n         *            the server port\n         * @param serverContextPath\n         *            the server context path\n         * @param useHttpsConnection\n         *            if secure connection is used\n         * @param ignoreSSL\n         *            specifies whether to ignore SSL issues\n         * @return the form validation\n         */\n        @RequirePOST\n        public FormValidation doTestConnection(@QueryParameter final String serverURL,\n                @QueryParameter final String serverPort, @QueryParameter final String serverContextPath,\n                @QueryParameter final boolean useHttpsConnection, @QueryParameter final boolean ignoreSSL) {\n            Jenkins.getInstance().checkPermission(Jenkins.ADMINISTER);\n            return atxValidator.testConnection(serverURL, serverPort, serverContextPath, useHttpsConnection, ignoreSSL);\n        }\n    }",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2022/05/GHSA-mfjw-x4q4-69p9/GHSA-mfjw-x4q4-69p9.json",
+    "case_id": "GHSA-mfjw-x4q4-69p9",
+    "project": "org.igniterealtime.openfire",
+    "repository": "https://github.com/igniterealtime/Openfire",
+    "package": "org.igniterealtime.openfire:parent",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2019-18394",
+      "https://swarm.ptsecurity.com/openfire-admin-console"
+    ],
+    "fix_commits": [
+      {
+        "commit": "c2ccb38250910587498597955d0bbee8b58e46df",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/igniterealtime/Openfire/commit/c2ccb38250910587498597955d0bbee8b58e46df",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "c2ccb38250910587498597955d0bbee8b58e46df",
+          "file": "xmppserver/src/main/java/org/jivesoftware/util/FaviconServlet.java",
+          "method": "public class FaviconServlet extends HttpServlet {",
+          "before_code": "}\n            // Return byte of default icon\n            bytes = defaultImage;\n        }\n        // Cache the favicon.\n        else {\n            hitsCache.put(host, bytes);\n        }\n        return bytes;\n    }\n\n    private byte[] getImage(String url) {\n        // Try to get the fiveicon from the url using an HTTP connection from the pool\n        // that also allows to configure timeout values (e.g. connect and get data)\n        final RequestConfig requestConfig = RequestConfig.custom()\n            .setConnectTimeout(2000)\n            .setSocketTimeout(2000)\n            .build();\n        final HttpUriRequest getRequest = RequestBuilder.get(url)\n            .setConfig(requestConfig)",
+          "after_code": "}\n            // Return byte of default icon\n            bytes = defaultImage;\n        }\n        // Cache the favicon.\n        else {\n            hitsCache.put(host, bytes);\n        }\n        return bytes;\n    }\n\n    private byte[] getImage(String url) {\n        // Try to get the favicon from the url using an HTTP connection from the pool\n        // that also allows to configure timeout values (e.g. connect and get data)\n        final RequestConfig requestConfig = RequestConfig.custom()\n            .setConnectTimeout(2000)\n            .setSocketTimeout(2000)\n            .build();\n        final HttpUriRequest getRequest = RequestBuilder.get(url)\n            .setConfig(requestConfig)",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2022/09/GHSA-53jm-3hc9-fqqc/GHSA-53jm-3hc9-fqqc.json",
+    "case_id": "GHSA-53jm-3hc9-fqqc",
+    "project": "org.apache.xmlgraphics",
+    "repository": "https://github.com/apache/xmlgraphics-batik",
+    "package": "org.apache.xmlgraphics:batik",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2022-38648",
+      "https://security.gentoo.org/glsa/202401-11"
+    ],
+    "fix_commits": [
+      {
+        "commit": "996aa8897c208be11ce65cef00c9576a299b2637",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/apache/xmlgraphics-batik/commit/996aa8897c208be11ce65cef00c9576a299b2637",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "996aa8897c208be11ce65cef00c9576a299b2637",
+          "file": "batik-bridge/src/main/java/org/apache/batik/bridge/SVGImageElementBridge.java",
+          "method": "public class SVGImageElementBridge extends AbstractGraphicsNodeBridge {",
+          "before_code": "throw new BridgeException(ctx, e, ERR_ATTRIBUTE_VALUE_MALFORMED,\n                                      new Object[] {\"xlink:href\", uriStr});\n        }\n\n        // Build the URL.\n        String baseURI = AbstractNode.getBaseURI(e);\n        ParsedURL purl;\n        if (baseURI == null) {\n            purl = new ParsedURL(uriStr);\n        } else {\n            purl = new ParsedURL(baseURI, uriStr);\n        }\n\n        return createImageGraphicsNode(ctx, e, purl);\n    }\n\n    protected GraphicsNode createImageGraphicsNode(BridgeContext ctx,\n                                                   Element e,\n                                                   ParsedURL purl) {\n        Rectangle2D bounds = getImageBounds(ctx, e);",
+          "after_code": "throw new BridgeException(ctx, e, ERR_ATTRIBUTE_VALUE_MALFORMED,\n                                      new Object[] {\"xlink:href\", uriStr});\n        }\n\n        // Build the URL.\n        String baseURI = AbstractNode.getBaseURI(e);\n        ParsedURL purl;\n        if (baseURI == null) {\n            purl = new ParsedURL(uriStr);\n        } else {\n            purl = new ParsedURL(baseURI, uriStr);\n        }\n        checkLoadExternalResource(ctx, e, purl);\n        return createImageGraphicsNode(ctx, e, purl);\n    }\n\n    private void checkLoadExternalResource(BridgeContext ctx, Element e, ParsedURL purl) {\n        SVGDocument svgDoc = (SVGDocument)e.getOwnerDocument();\n        String docURL = svgDoc.getURL();\n        ParsedURL pDocURL = null;",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2024/07/GHSA-q8f2-hxq5-cp4h/GHSA-q8f2-hxq5-cp4h.json",
+    "case_id": "GHSA-q8f2-hxq5-cp4h",
+    "project": "io.netty.incubator",
+    "repository": "https://github.com/netty/netty-incubator-codec-ohttp",
+    "package": "io.netty.incubator:netty-incubator-codec-bhttp",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://github.com/netty/netty-incubator-codec-ohttp/security/advisories/GHSA-q8f2-hxq5-cp4h",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-40642"
+    ],
+    "fix_commits": [
+      {
+        "commit": "b687a0cf6ea1030232ea204d73bce82f2698e571",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/netty/netty-incubator-codec-ohttp/commit/b687a0cf6ea1030232ea204d73bce82f2698e571",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "b687a0cf6ea1030232ea204d73bce82f2698e571",
+          "file": "codec-bhttp/src/main/java/io/netty/incubator/codec/bhttp/BinaryHttpParser.java",
+          "method": "public final class BinaryHttpParser {",
+          "before_code": "READ_PADDING(true),\n\n        DISCARD(true);\n\n        final boolean knownLength;\n\n        State(boolean knownLength) {\n            this.knownLength = knownLength;\n        }\n    }\n\n    private static final ByteProcessor PADDING_VALIDATOR = b -> {\n        // Let's validate that only 0 is used for padding. While this is not strictly required\n        // it can't harm to enforce it.\n        // See https://www.rfc-editor.org/rfc/rfc9292.html#section-3.8\n        if (b != 0) {\n            throw new CorruptedFrameException(\"Invalid byte used for padding: \" + b);\n        }\n        return true;",
+          "after_code": "READ_PADDING(true),\n\n        DISCARD(true);\n\n        final boolean knownLength;\n\n        State(boolean knownLength) {\n            this.knownLength = knownLength;\n        }\n    }\n\n    private static final boolean[] ALLOWED_TOKEN;\n    private static final boolean[] ALLOWED_SCHEME;\n\n    static {\n        ALLOWED_TOKEN = new boolean[256];\n        for (byte b = Byte.MIN_VALUE; b < Byte.MAX_VALUE; b++) {\n            ALLOWED_TOKEN[128 + b] = !Character.isWhitespace(b);\n        }",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2025/03/GHSA-3v67-545x-ffc3/GHSA-3v67-545x-ffc3.json",
+    "case_id": "GHSA-3v67-545x-ffc3",
+    "project": "org.apache.kylin",
+    "repository": "https://github.com/apache/kylin",
+    "package": "org.apache.kylin:kylin-common-server",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-48944"
+    ],
+    "fix_commits": [
+      {
+        "commit": "4e6a5acd799ae7543c7161e72ef1019c74d5b4ad",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/apache/kylin/commit/4e6a5acd799ae7543c7161e72ef1019c74d5b4ad",
+        "summary": "Add explicit scheme validation before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Add explicit scheme validation before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "4e6a5acd799ae7543c7161e72ef1019c74d5b4ad",
+          "file": "src/common-server/src/main/java/org/apache/kylin/rest/controller/NBasicController.java",
+          "method": "public class NBasicController {",
+          "before_code": "protected void checkCollectionRequiredArg(String fieldName, Collection<?> fieldValue) {\n        if (CollectionUtils.isEmpty(fieldValue)) {\n            throw new KylinException(REQUEST_PARAMETER_EMPTY_OR_VALUE_EMPTY, fieldName);\n        }\n    }\n\n    public String decodeHost(String host) {\n        try {\n            if (StringUtils.isBlank(host) || host.startsWith(\"http://\")) {\n                return host;\n            }\n            return new String(Base64.decodeBase64(host), Charset.defaultCharset());\n        } catch (Exception e) {\n            logger.error(\"Failed to decode host, will use the original host name\");\n        }\n        return host;\n    }\n\n    public String encodeHost(String host) {",
+          "after_code": "protected void checkCollectionRequiredArg(String fieldName, Collection<?> fieldValue) {\n        if (CollectionUtils.isEmpty(fieldValue)) {\n            throw new KylinException(REQUEST_PARAMETER_EMPTY_OR_VALUE_EMPTY, fieldName);\n        }\n    }\n\n    public String decodeHost(String host) {\n        try {\n            if (StringUtils.isBlank(host) || host.startsWith(\"http://\")) {\n                return host;\n            }\n            String decryptValue = EncryptUtil.decrypt(new String(Base64.decodeBase64(host), Charset.defaultCharset()));\n            return StringUtils.isBlank(decryptValue) ? host : decryptValue;\n        } catch (Exception e) {\n            logger.error(\"Failed to decode host, will use the original host name\");\n        }\n        return host;\n    }",
+          "inferred_pattern": "Add explicit scheme validation before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": true,
+      "previous_case_ids": [
+        "GHSA-f6m8-qm7j-fh65",
+        "GHSA-wrx7-qgmj-mf2q"
+      ],
+      "description": "Advisory wording signals a repeated or incomplete-fix family within the same repository.",
+      "evidence_urls": [
+        "https://github.com/apache/kylin",
+        "https://github.com/apache/kylin/commit/4e6a5acd799ae7543c7161e72ef1019c74d5b4ad",
+        "https://nvd.nist.gov/vuln/detail/CVE-2024-48944"
+      ]
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2025/10/GHSA-f6m8-qm7j-fh65/GHSA-f6m8-qm7j-fh65.json",
+    "case_id": "GHSA-f6m8-qm7j-fh65",
+    "project": "org.apache.kylin",
+    "repository": "https://github.com/apache/kylin",
+    "package": "org.apache.kylin:kylin",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2025-61735",
+      "http://www.openwall.com/lists/oss-security/2025/09/30/9"
+    ],
+    "fix_commits": [
+      {
+        "commit": "22eb8fd5dfdeffa3fc57bae6d5c82a019eece662",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/apache/kylin/commit/22eb8fd5dfdeffa3fc57bae6d5c82a019eece662",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "22eb8fd5dfdeffa3fc57bae6d5c82a019eece662",
+          "file": "src/server/src/main/java/org/apache/kylin/rest/ResourceGroupLoadBalancer.java",
+          "method": "public class ResourceGroupLoadBalancer implements ReactorServiceInstanceLoadBala",
+          "before_code": "public Mono<Response<ServiceInstance>> choose(Request request) {\n        return Mono.fromCallable(this::getInstanceResponse);\n    }\n\n    private Response<ServiceInstance> getInstanceResponse() {\n        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) Objects\n                .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();\n        ResourceGroupManager rgManager = ResourceGroupManager.getInstance(KylinConfig.getInstanceFromEnv());\n        List<String> jobNodes = clusterManager.getJobServers().stream().map(ServerInfoResponse::getHost)\n                .collect(Collectors.toList());\n        String project = ProjectInfoParser.parseProjectInfo(httpServletRequest).getFirst();\n        if (rgManager.isResourceGroupEnabled() && !project.equals(UnitOfWork.GLOBAL_UNIT)) {\n            jobNodes.retainAll(rgManager.getInstancesForProject(project));\n        }\n\n        if (jobNodes.isEmpty()) {\n            Message msg = MsgPicker.getMsg();\n            throw new KylinException(SYSTEM_IS_RECOVER, msg.getLeadersHandleOver());\n        }\n        String randomNode = jobNodes.get(RandomUtil.nextInt(jobNodes.size()));",
+          "after_code": "public Mono<Response<ServiceInstance>> choose(Request request) {\n        return Mono.fromCallable(this::getInstanceResponse);\n    }\n\n    private Response<ServiceInstance> getInstanceResponse() {\n        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) Objects\n                .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();\n        ResourceGroupManager rgManager = ResourceGroupManager.getInstance(KylinConfig.getInstanceFromEnv());\n        List<String> jobNodes = clusterManager.getJobServers().stream().map(ServerInfoResponse::getHost)\n                .collect(Collectors.toList());\n        String project = ProjectInfoParser.parseProjectInfo(httpServletRequest).getFirst();\n        if (rgManager.isResourceGroupEnabled() && !project.equals(UnitOfWork.GLOBAL_UNIT)) {\n            jobNodes = rgManager.getInstancesForProject(project);\n        }\n\n        if (jobNodes.isEmpty()) {\n            Message msg = MsgPicker.getMsg();\n            throw new KylinException(SYSTEM_IS_RECOVER, msg.getLeadersHandleOver());\n        }\n        String randomNode = jobNodes.get(RandomUtil.nextInt(jobNodes.size()));",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": true,
+      "previous_case_ids": [
+        "GHSA-3v67-545x-ffc3",
+        "GHSA-wrx7-qgmj-mf2q"
+      ],
+      "description": "Advisory wording signals a repeated or incomplete-fix family within the same repository.",
+      "evidence_urls": [
+        "https://github.com/apache/kylin/commit/22eb8fd5dfdeffa3fc57bae6d5c82a019eece662",
+        "https://github.com/apache/kylin/pull/2332",
+        "https://nvd.nist.gov/vuln/detail/CVE-2025-61735"
+      ]
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2026/03/GHSA-mhrg-94vw-45c5/GHSA-mhrg-94vw-45c5.json",
+    "case_id": "GHSA-mhrg-94vw-45c5",
+    "project": "org.springframework.ai",
+    "repository": "https://github.com/spring-projects/spring-ai",
+    "package": "org.springframework.ai:spring-ai-bedrock-converse",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2026-22742",
+      "https://spring.io/security/cve-2026-22742"
+    ],
+    "fix_commits": [
+      {
+        "commit": "a7d3223bc11a010b93fbc40a17fa9b68c52a8118",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/spring-projects/spring-ai/commit/a7d3223bc11a010b93fbc40a17fa9b68c52a8118",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "a7d3223bc11a010b93fbc40a17fa9b68c52a8118",
+          "file": "models/spring-ai-bedrock-converse/src/main/java/org/springframework/ai/bedrock/converse/api/URLValidator.java",
+          "method": "public final class URLValidator {",
+          "before_code": "try {\n\t\t\tURL url = new URL(urlString);\n\t\t\t// Additional validation by attempting to convert to URI\n\t\t\turl.toURI();\n\n\t\t\t// Ensure protocol is http or https\n\t\t\tString protocol = url.getProtocol().toLowerCase();\n\t\t\tif (!protocol.equals(\"http\") && !protocol.equals(\"https\")) {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\t// Validate host (not empty and contains at least one dot, unless it's\n\t\t\t// localhost)\n\t\t\tString host = url.getHost();\n\t\t\tif (host == null || host.isEmpty()) {\n\t\t\t\treturn false;\n\t\t\t}\n\t\t\tif (!host.equals(\"localhost\") && !host.contains(\".\")) {\n\t\t\t\treturn false;",
+          "after_code": "try {\n\t\t\tURL url = new URL(urlString);\n\t\t\t// Additional validation by attempting to convert to URI\n\t\t\turl.toURI();\n\n\t\t\t// Ensure protocol is http or https\n\t\t\tString protocol = url.getProtocol().toLowerCase();\n\t\t\tif (!protocol.equals(\"http\") && !protocol.equals(\"https\")) {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\t// Validate host (not empty)\n\t\t\t// IPv6 hosts contain ':' instead of '.', so skip the dot check for them\n\t\t\tString host = url.getHost();\n\t\t\tif (host == null || host.isEmpty()) {\n\t\t\t\treturn false;\n\t\t\t}\n\t\t\tboolean isIPv6 = host.contains(\":\");\n\t\t\tif (!isIPv6 && !host.contains(\".\")) {",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": true,
+      "summary": "The fix shows validator logic and outbound request logic side by side, so the validator semantics must match how the downstream requester interprets the same user-controlled target.",
+      "validator_side": {
+        "api_family": "input_validation",
+        "apis": [
+          "contains(",
+          "new url(",
+          ".gethost("
+        ],
+        "semantic_use": "Validation happens before the outbound request path."
+      },
+      "requester_side": {
+        "api_family": "request_dispatch",
+        "apis": [
+          "new url("
+        ],
+        "semantic_use": "These calls or helpers consume the validated value on the request path."
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": []
+  },
+  {
+    "advisory_path": "advisory-database/advisories/github-reviewed/2026/05/GHSA-42fc-7w97-8vrc/GHSA-42fc-7w97-8vrc.json",
+    "case_id": "GHSA-42fc-7w97-8vrc",
+    "project": "org.xwiki.contrib.plantuml",
+    "repository": "https://github.com/xwiki-contrib/macro-plantuml",
+    "package": "org.xwiki.contrib.plantuml:macro-plantuml-macro",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://github.com/xwiki-contrib/macro-plantuml/security/advisories/GHSA-42fc-7w97-8vrc",
+      "https://nvd.nist.gov/vuln/detail/CVE-2026-42140"
+    ],
+    "fix_commits": [
+      {
+        "commit": "c8b19bda93058794e04c8862fc7ca85c59b5fe5c",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/xwiki-contrib/macro-plantuml/commit/c8b19bda93058794e04c8862fc7ca85c59b5fe5c",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "c8b19bda93058794e04c8862fc7ca85c59b5fe5c",
+          "file": "macro-plantuml-macro/src/main/java/org/xwiki/contrib/plantuml/internal/PlantUMLMacro.java",
+          "method": "public class PlantUMLMacro extends AbstractMacro<PlantUMLMacroParameters>",
+          "before_code": "wrappedContent,\n                computeServer(parameters),\n                computeFormat(parameters)\n        );\n\n        // Wrap in a DIV if not inline (we need that since an IMG is an inline element otherwise)\n        if (!isInline) {\n            resultBlock = new GroupBlock(Arrays.asList(resultBlock));\n        }\n        return Arrays.asList(resultBlock);\n    }\n\n    private String computeServer(PlantUMLMacroParameters parameters)\n    {\n        String serverURL = parameters.getServer();\n        if (serverURL == null) {\n            serverURL = this.configuration.getPlantUMLServerURL();\n        }\n        return serverURL;\n    }",
+          "after_code": "wrappedContent,\n                computeServer(parameters),\n                computeFormat(parameters)\n        );\n\n        // Wrap in a DIV if not inline (we need that since an IMG is an inline element otherwise)\n        if (!isInline) {\n            resultBlock = new GroupBlock(Arrays.asList(resultBlock));\n        }\n        return Arrays.asList(resultBlock);\n    }\n\n    private String computeServer(PlantUMLMacroParameters parameters) throws MacroExecutionException\n    {\n        String serverURL = parameters.getServer();\n        if (serverURL == null) {\n            serverURL = this.configuration.getPlantUMLServerURL();\n        }\n\n        // Verify that the server is in the trusted domain list to avoid SSRF attacks.",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/unreviewed/2024/03/GHSA-33pg-fqx9-9w66/GHSA-33pg-fqx9-9w66.json",
+    "case_id": "GHSA-33pg-fqx9-9w66",
+    "project": "easy-admin",
+    "repository": "https://gitee.com/lakernote/easy-admin",
+    "package": "easy-admin",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-2828"
+    ],
+    "fix_commits": [
+      {
+        "commit": "23165d8cb569048c531150f194fea39f8800b8d5",
+        "role": "primary_fix",
+        "commit_url": "https://gitee.com/lakernote/easy-admin/commit/23165d8cb569048c531150f194fea39f8800b8d5",
+        "summary": "Add protocol checks and host allowlist validation before passing the user-controlled URL into the image-fetch path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Add protocol checks and host allowlist validation before passing the user-controlled URL into the image-fetch path.",
+      "evidence": [
+        {
+          "commit": "23165d8cb569048c531150f194fea39f8800b8d5",
+          "file": "src/main/java/com/laker/admin/module/sys/controller/IndexController.java",
+          "method": "public class IndexController {",
+          "before_code": "return Response.ok(Dict.create().set(\"uid\", uid).set(\"image\", captcha.toBase64()));\n    }\n\n    /**\n     * 缩略图\n     * http://localhost:8080/thumbnail?url=http://localhost:8080/admin/admin/images/wx.jpg\n     */\n    @GetMapping(\"/thumbnail\")\n    public void thumbnail(String url, HttpServletResponse response,\n                          @RequestParam(required = false, defaultValue = \"1\") int type,\n                          @RequestParam(required = false, defaultValue = \"100\") int width,\n                          @RequestParam(required = false, defaultValue = \"100\") int height) throws IOException {\n        OutputStream out = new BufferedOutputStream(response.getOutputStream());\n        switch (type) {\n            case 1: // 预览\n                response.setContentType(\"image/\" + FileUtil.getSuffix(url) + \"; charset=utf-8\");\n                break;\n            case 2: // 下载\n                response.addHeader(\"Content-Disposition\", \"attachment;filename=\"\n                        + new String(FileUtil.mainName(url).getBytes(\"utf-8\"), \"iso-8859-1\") + \".\" + FileUtil.getSuffix(url));",
+          "after_code": "return Response.ok(Dict.create().set(\"uid\", uid).set(\"image\", captcha.toBase64()));\n    }\n\n    /**\n     * 缩略图\n     * http://localhost:8080/thumbnail?url=http://localhost:8080/admin/admin/images/wx.jpg\n     */\n    @GetMapping(\"/thumbnail\")\n    public void thumbnail(String url, HttpServletResponse response,\n                          @RequestParam(required = false, defaultValue = \"1\") int type,\n                          @RequestParam(required = false, defaultValue = \"100\") int width,\n                          @RequestParam(required = false, defaultValue = \"100\") int height) throws IOException {\n        // 确保它是以\"http://\"或\"https://\"开头的\n        if (!(url.startsWith(\"http://\") || url.startsWith(\"https://\"))) {\n            throw new BusinessException(\"仅允许http/https文件\");\n        }\n\n        if (!config.getSecurity().getAllowList().contains(new URL(url).getHost())) {\n            throw new BusinessException(\"仅允许访问白名单文件\");\n        }",
+          "inferred_pattern": "Add protocol checks and host allowlist validation before passing the user-controlled URL into the image-fetch path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": true,
+      "summary": "The fix shows validator logic and outbound request logic side by side, so the validator semantics must match how the downstream requester interprets the same user-controlled target.",
+      "validator_side": {
+        "api_family": "input_validation",
+        "apis": [
+          "startswith(",
+          "contains(",
+          "new url(",
+          ".gethost(",
+          "allowlist"
+        ],
+        "semantic_use": "Validation happens before the outbound request path."
+      },
+      "requester_side": {
+        "api_family": "request_dispatch",
+        "apis": [
+          "new url("
+        ],
+        "semantic_use": "These calls or helpers consume the validated value on the request path."
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": []
+  },
+  {
+    "advisory_path": "advisory-database/advisories/unreviewed/2024/09/GHSA-w8w4-463p-8pg7/GHSA-w8w4-463p-8pg7.json",
+    "case_id": "GHSA-w8w4-463p-8pg7",
+    "project": "GHSA-w8w4-463p-8pg7",
+    "repository": "https://github.com/apache/ofbiz-framework",
+    "package": "GHSA-w8w4-463p-8pg7",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-45507",
+      "https://ofbiz.apache.org/security.html"
+    ],
+    "fix_commits": [
+      {
+        "commit": "28f5f87ec9",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/apache/ofbiz-framework/commit/28f5f87ec9",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      },
+      {
+        "commit": "ffb1bc4879",
+        "role": "unknown",
+        "commit_url": "https://github.com/apache/ofbiz-framework/commit/ffb1bc4879",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "28f5f87ec9",
+          "file": "framework/base/src/main/java/org/apache/ofbiz/base/util/GroovyUtil.java",
+          "method": "public final class GroovyUtil {",
+          "before_code": "return new Binding(vars);\n    }\n\n    public static Binding getBinding(Map<String, Object> context) {\n        return getBinding(context, null);\n    }\n\n    public static Class<?> getScriptClassFromLocation(String location) throws GeneralException {\n        try {\n            Class<?> scriptClass = PARSED_SCRIPTS.get(location);\n            if (scriptClass == null) {\n                URL scriptUrl = FlexibleLocation.resolveLocation(location);\n                if (scriptUrl == null) {\n                    throw new GeneralException(\"Script not found at location [\" + location + \"]\");\n                }\n                scriptClass = parseClass(scriptUrl.openStream(), location);\n                Class<?> scriptClassCached = PARSED_SCRIPTS.putIfAbsent(location, scriptClass);\n                if (scriptClassCached == null) { // putIfAbsent returns null if the class is added to the cache\n                    if (Debug.verboseOn()) {\n                        Debug.logVerbose(\"Cached Groovy script at: \" + location, MODULE);",
+          "after_code": "return new Binding(vars);\n    }\n\n    public static Binding getBinding(Map<String, Object> context) {\n        return getBinding(context, null);\n    }\n\n    public static Class<?> getScriptClassFromLocation(String location) throws GeneralException {\n        try {\n            Class<?> scriptClass = PARSED_SCRIPTS.get(location);\n            if (scriptClass == null) {\n                URL scriptUrl = FlexibleLocation.resolveLocation(location);\n                if (scriptUrl == null || UtilValidate.urlInString(scriptUrl.toString())) {\n                    throw new GeneralException(\"Script not found at location [\" + location + \"]\");\n                }\n                scriptClass = parseClass(scriptUrl.openStream(), location);\n                Class<?> scriptClassCached = PARSED_SCRIPTS.putIfAbsent(location, scriptClass);\n                if (scriptClassCached == null) { // putIfAbsent returns null if the class is added to the cache\n                    if (Debug.verboseOn()) {\n                        Debug.logVerbose(\"Cached Groovy script at: \" + location, MODULE);",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        },
+        {
+          "commit": "ffb1bc4879",
+          "file": "framework/base/src/main/java/org/apache/ofbiz/base/util/GroovyUtil.java",
+          "method": "public class GroovyUtil {",
+          "before_code": "return new Binding(vars);\n    }\n\n    public static Binding getBinding(Map<String, Object> context) {\n        return getBinding(context, null);\n    }\n\n    public static Class<?> getScriptClassFromLocation(String location) throws GeneralException {\n        try {\n            Class<?> scriptClass = parsedScripts.get(location);\n            if (scriptClass == null) {\n                URL scriptUrl = FlexibleLocation.resolveLocation(location);\n                if (scriptUrl == null) {\n                    throw new GeneralException(\"Script not found at location [\" + location + \"]\");\n                }\n                if (groovyScriptClassLoader != null) {\n                    scriptClass = parseClass(scriptUrl.openStream(), location, groovyScriptClassLoader);\n                } else {\n                    scriptClass = parseClass(scriptUrl.openStream(), location);\n                }",
+          "after_code": "return new Binding(vars);\n    }\n\n    public static Binding getBinding(Map<String, Object> context) {\n        return getBinding(context, null);\n    }\n\n    public static Class<?> getScriptClassFromLocation(String location) throws GeneralException {\n        try {\n            Class<?> scriptClass = parsedScripts.get(location);\n            if (scriptClass == null) {\n                URL scriptUrl = FlexibleLocation.resolveLocation(location);\n                if (scriptUrl == null || UtilValidate.urlInString(scriptUrl.toString())) {\n                    throw new GeneralException(\"Script not found at location [\" + location + \"]\");\n                }\n                if (groovyScriptClassLoader != null) {\n                    scriptClass = parseClass(scriptUrl.openStream(), location, groovyScriptClassLoader);\n                } else {\n                    scriptClass = parseClass(scriptUrl.openStream(), location);\n                }",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/unreviewed/2024/11/GHSA-qxp5-vjrm-298x/GHSA-qxp5-vjrm-298x.json",
+    "case_id": "GHSA-qxp5-vjrm-298x",
+    "project": "GHSA-qxp5-vjrm-298x",
+    "repository": "https://github.com/apache/ofbiz-framework",
+    "package": "GHSA-qxp5-vjrm-298x",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-47208",
+      "https://ofbiz.apache.org/security.html",
+      "http://www.openwall.com/lists/oss-security/2024/11/16/3"
+    ],
+    "fix_commits": [
+      {
+        "commit": "f044a7e5bf",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/apache/ofbiz-framework/commit/f044a7e5bf",
+        "summary": "Tighten the component-path guard by requiring the trusted prefix at the start of the string instead of accepting the token anywhere in the input."
+      },
+      {
+        "commit": "b719d2283b",
+        "role": "unknown",
+        "commit_url": "https://github.com/apache/ofbiz-framework/commit/b719d2283b",
+        "summary": "Tighten the component-path guard by requiring the trusted prefix at the start of the string instead of accepting the token anywhere in the input."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten the component-path guard by requiring the trusted prefix at the start of the string instead of accepting the token anywhere in the input.",
+      "evidence": [
+        {
+          "commit": "f044a7e5bf",
+          "file": "framework/base/src/main/java/org/apache/ofbiz/base/util/UtilValidate.java",
+          "method": "public final class UtilValidate {",
+          "before_code": "if (s.indexOf(\"://\") != -1) {\n            return true;\n        }\n        return false;\n    }\n\n    /**\n     * urlInString returns true if the string contains :// and not \"component://\"\n     * @param s String to validate\n     * @return true if s contains :// and not \"component://\"\n     */\n    public static boolean urlInString(String s) {\n        if (isEmpty(s) || s.contains(\"component://\")) {\n            return false;\n        }\n        return s.indexOf(\"://\") != -1;\n    }\n\n    /**\n     * isValidUrl returns true if the string is a valid URL (using Commons UrlValidator)",
+          "after_code": "if (s.indexOf(\"://\") != -1) {\n            return true;\n        }\n        return false;\n    }\n\n    /**\n     * urlInString returns true if the string contains :// and not \"component://\"\n     * @param s String to validate\n     * @return true if s contains :// and not \"component://\"\n     */\n    public static boolean urlInString(String s) {\n        if (isEmpty(s) || s.startsWith(\"component://\")) {\n            return false;\n        }\n        return s.indexOf(\"://\") != -1;\n    }\n\n    /**\n     * isValidUrl returns true if the string is a valid URL (using Commons UrlValidator)",
+          "inferred_pattern": "Tighten the component-path guard by requiring the trusted prefix at the start of the string instead of accepting the token anywhere in the input.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        },
+        {
+          "commit": "b719d2283b",
+          "file": "framework/base/src/main/java/org/apache/ofbiz/base/util/UtilValidate.java",
+          "method": "public final class UtilValidate {",
+          "before_code": "if (isEmpty(s)) {\n            return DEFAULT_EMPTY_OK;\n        }\n        return s.indexOf(\"://\") != -1;\n    }\n\n    /**\n     * urlInString returns true if the string contains :// and not \"component://\"\n     * @param s String to validate\n     * @return true if s contains :// and not \"component://\"\n     */\n    public static boolean urlInString(String s) {\n        if (isEmpty(s) || s.contains(\"component://\")) {\n            return false;\n        }\n        return s.indexOf(\"://\") != -1;\n    }\n\n    /**\n     * isValidUrl returns true if the string is a valid URL (using Commons UrlValidator)",
+          "after_code": "if (isEmpty(s)) {\n            return DEFAULT_EMPTY_OK;\n        }\n        return s.indexOf(\"://\") != -1;\n    }\n\n    /**\n     * urlInString returns true if the string contains :// and not \"component://\"\n     * @param s String to validate\n     * @return true if s contains :// and not \"component://\"\n     */\n    public static boolean urlInString(String s) {\n        if (isEmpty(s) || s.startsWith(\"component://\")) {\n            return false;\n        }\n        return s.indexOf(\"://\") != -1;\n    }\n\n    /**\n     * isValidUrl returns true if the string is a valid URL (using Commons UrlValidator)",
+          "inferred_pattern": "Tighten the component-path guard by requiring the trusted prefix at the start of the string instead of accepting the token anywhere in the input.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  },
+  {
+    "advisory_path": "advisory-database/advisories/unreviewed/2025/10/GHSA-h976-6mc8-5w2v/GHSA-h976-6mc8-5w2v.json",
+    "case_id": "GHSA-h976-6mc8-5w2v",
+    "project": "PerfreeBlog",
+    "repository": "https://github.com/PerfreeBlog/PerfreeBlog",
+    "package": "PerfreeBlog",
+    "ecosystem": "Java",
+    "vuln_type": "direct_ssrf",
+    "advisory_urls": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2025-60319"
+    ],
+    "fix_commits": [
+      {
+        "commit": "103c79165e3a41a1729188fdc8a1e90c97c0a06d",
+        "role": "primary_fix",
+        "commit_url": "https://github.com/PerfreeBlog/PerfreeBlog/commit/103c79165e3a41a1729188fdc8a1e90c97c0a06d",
+        "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path."
+      }
+    ],
+    "repair_pattern_inferred_from_commit": {
+      "summary": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+      "evidence": [
+        {
+          "commit": "103c79165e3a41a1729188fdc8a1e90c97c0a06d",
+          "file": "perfree-system/perfree-system-biz/src/main/java/com/perfree/controller/auth/attach/AttachController.java",
+          "method": "public class AttachController {",
+          "before_code": "}\n\n\n    @GetMapping(\"/getAllAttachGroup\")\n    @Operation(summary = \"获取所有附件分组\")\n    public CommonResult<List<AttachGroupRespVO>> getAllAttachGroup() {\n        return success(attachService.getAllAttachGroup());\n    }\n\n    @PostMapping(\"/uploadAttachByUrl\")\n    @Operation(summary = \"通过url下载并上传附件\")\n    @DemoMode\n    public CommonResult<AttachByUrlRespVO> uploadAttachByUrl(@Valid @RequestBody AttachUploadByUrlVO attachUploadByUrlVO) {\n        Attach attach = attachService.uploadAttachByUrl(attachUploadByUrlVO.getUrl());\n        AttachByUrlRespVO attachByUrlRespVO = AttachConvert.INSTANCE.convertByUrlRespVO(attach);\n        attachByUrlRespVO.setOriginalURL(attachUploadByUrlVO.getUrl());\n        return success(attachByUrlRespVO);\n    }\n}",
+          "after_code": "}\n\n\n    @GetMapping(\"/getAllAttachGroup\")\n    @Operation(summary = \"获取所有附件分组\")\n    public CommonResult<List<AttachGroupRespVO>> getAllAttachGroup() {\n        return success(attachService.getAllAttachGroup());\n    }\n\n    @PostMapping(\"/uploadAttachByUrl\")\n    @Operation(summary = \"通过url下载并上传附件\")\n    @DemoMode\n    @PreAuthorize(\"@ss.hasPermission('admin:attach:update')\")\n    public CommonResult<AttachByUrlRespVO> uploadAttachByUrl(@Valid @RequestBody AttachUploadByUrlVO attachUploadByUrlVO) {\n        Attach attach = attachService.uploadAttachByUrl(attachUploadByUrlVO.getUrl());\n        AttachByUrlRespVO attachByUrlRespVO = AttachConvert.INSTANCE.convertByUrlRespVO(attach);\n        attachByUrlRespVO.setOriginalURL(attachUploadByUrlVO.getUrl());\n        return success(attachByUrlRespVO);\n    }\n}",
+          "inferred_pattern": "Tighten validation around the user-controlled target before the code reaches the outbound request path.",
+          "why_it_matters": "This is the closest changed Java hunk tying the fix to the SSRF-relevant code path."
+        }
+      ]
+    },
+    "ambiguity_rule_inferred_from_commit": {
+      "exists": false,
+      "summary": "UNKNOWN",
+      "validator_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "requester_side": {
+        "api_family": "UNKNOWN",
+        "apis": [],
+        "semantic_use": "UNKNOWN"
+      },
+      "evidence": []
+    },
+    "repeat_fix_relation": {
+      "exists": false,
+      "previous_case_ids": [],
+      "description": "",
+      "evidence_urls": []
+    },
+    "payload_family_hints": [],
+    "confidence": "high",
+    "unknown_fields": [
+      "ambiguity_rule_inferred_from_commit"
+    ]
+  }
+]
